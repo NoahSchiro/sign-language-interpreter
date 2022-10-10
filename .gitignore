@@ -1,7 +1,1 @@
-*.exe
-main
-CMakeCache.txt
-CMakeFiles/
-Makefile
-cmake_install.cmake
-train_data/
+dataset/
