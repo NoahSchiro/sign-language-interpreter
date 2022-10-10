@@ -6,6 +6,8 @@ import os
 from keras.preprocessing.image import ImageDataGenerator
 from keras import layers
 from keras import models
+from keras import optimizers
+import tensorflow as tf
 
 # Some constant data
 TRAINING_DIR = 'dataset/asl_alphabet_train'
@@ -61,5 +63,48 @@ model.add(layers.Conv2D(128, kernel_size=4, strides=1, activation='relu'))
 model.add(layers.Conv2D(128, kernel_size=4, strides=2, activation='relu'))
 model.add(layers.Dropout(0.5))
 model.add(layers.Conv2D(256, kernel_size=4, strides=1, activation='relu'))
-# Output
 model.add(layers.Conv2D(256, kernel_size=4, strides=2, activation='relu'))
+
+# Dense model
+model.add(layers.Flatten())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dense(29, activation='softmax'))
+
+# Define an adam optimizer with very very low learning rate
+opt = tf.keras.optimizers.Adam(learning_rate=1e-4)
+
+# Compile model with adam optimizerer
+model.compile(
+	optimizer=opt,
+    loss='categorical_crossentropy',	# because we are categorizing
+    metrics=['accuracy'])				# We want to measure accuracy primarily
+
+# Train model and track it's history
+history = model.fit_generator(train_generator, epochs=24, validation_data=validation_generator)
+
+#####################################################
+# I want to see some of the data about how this trained
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs = range(1, len(acc) + 1)
+
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'r-', label='Validation acc')
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'r-', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+#####################################################
+
+MODEL_NAME = 'models/asl_alphabet_{}.h5'.format(0.8798)
+model.save(MODEL_NAME)
