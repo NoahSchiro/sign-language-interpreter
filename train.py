@@ -78,7 +78,10 @@ model.compile(
     metrics=['accuracy'])				# We want to measure accuracy primarily
 
 # Train model and track it's history
-model.fit_generator(train_generator, epochs=5, validation_data=validation_generator)
+model.fit_generator(
+	train_generator, 
+	epochs=5, 
+	validation_data=validation_generator)
 
-MODEL_NAME = 'models/asl_alphabet_{}.h5'.format(0.8798)
+MODEL_NAME = 'models/asl_classifier.h5'
 model.save(MODEL_NAME)
