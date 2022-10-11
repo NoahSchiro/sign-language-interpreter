@@ -16,10 +16,8 @@ BATCH_SIZE = 64
 # Load in the model we trained
 model = load_model(MODEL_NAME)
 
-# TODO: Add delete test
-# Get all of the possible classes (it so happens that 
+# Get all of the possible classes
 classes = os.listdir('dataset/asl_alphabet_train')
-
 for category in classes:
     image_location = 'dataset/asl_alphabet_test/{}/{}_test.jpg'.format(category, category)
     img = cv2.imread(image_location)
