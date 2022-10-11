@@ -1,8 +1,33 @@
-# sign-language-interpreter
+# American Sign Language Letter Interpreter
 ---
 
-Currently this repo is functioning as a way for me to learn more about CV, but eventually this will be an application which is able to take an image from the webcam and display it. It will find a hand in the image and then use machine learning to determine what kind sign language letter the hand is making. It will then add this letter to a string and print it on top of the image
+## Model
+Model is sequential, built with Keras. Contains a combination of convolutional and dropout layers. Image input is a 64x64 image, and is classified into the letters A-Z, space, nothing, and delete. Model is compiled with adam optimizer, and the loss function categorical crossentropy. Model contains about 3 million trainable parameters.
 
-Raw data for classifier found here: 
+Model is saved as an .h5 file and can be downloaded by itself if you just want the weights and biases (file size ~40MB).
 
+### Improvements
+I believe this accuracy can be improved if we reduce learning rate to 1e-4 and increased epochs to about 20-25. I don't currently have hardware to resonably acheive this.
+
+### Dataset
 https://www.kaggle.com/datasets/grassknoted/asl-alphabet
+
+## How to run
+### Requirements to run
+Tensorflow, OpenCV, numpy, matplotlib (optional, but you will need to remove some code if you don't want to use this)
+
+If you are training from scratch:
+```
+python3 train.py
+```
+This will place a train model in the models/ directory
+
+Testing model:
+```
+python3 model_testing.py
+```
+
+## Future futures and improvements
+- [ ] Run model with more training time
+- [ ] Try hyperparameter tuning
+- [ ] Add requirements.txt
