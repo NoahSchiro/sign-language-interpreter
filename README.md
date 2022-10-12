@@ -27,7 +27,8 @@ Testing model:
 python3 model_testing.py
 ```
 
-## Future futures and improvements
-- [ ] Run model with more training time
+## Future plans and improvements
+- [ ] Run model with more epochs, and stochastic gradient decent instead of adam
 - [ ] Try hyperparameter tuning
 - [ ] Add requirements.txt
+- [ ] Implement an LSTM and try to recognize a limited set of gestures to expand beyond just letters
