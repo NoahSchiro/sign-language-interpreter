@@ -71,16 +71,22 @@ model.add(layers.Dropout(0.5))
 model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(29, activation='softmax'))
 
+# Use stochastic gradient decent with particular parameters (very slow training)
+opt = optimizers.SGD(
+	learning_rate=0.0001,
+	momentum=0.9
+)
+
 # Compile model with adam optimizerer
 model.compile(
-	optimizer='adam',
+	optimizer=opt,
     loss='categorical_crossentropy',	# because we are categorizing
     metrics=['accuracy'])				# We want to measure accuracy primarily
 
 # Train model and track it's history
 model.fit_generator(
 	train_generator, 
-	epochs=5, 
+	epochs=24, 
 	validation_data=validation_generator)
 
 MODEL_NAME = 'models/asl_classifier.h5'
