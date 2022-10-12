@@ -30,4 +30,4 @@ python3 model_testing.py
 ## Future futures and improvements
 - [ ] Run model with more training time
 - [ ] Try hyperparameter tuning
-- [ ] Add requirements.txt
+- [x] Add requirements.txt
