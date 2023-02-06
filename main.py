@@ -14,8 +14,8 @@ model = load_model(MODEL_NAME)
 
 # TODO: Do we really need a crop?
 # Setting up the input image size and frame crop size
-IMAGE_SIZE = 200
-CROP_SIZE = 400
+IMAGE_SIZE = 64
+CROP_SIZE = 640
 
 # Creating list of available classes stored in classes.txt
 classes = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "del", "space", "nothing"]
@@ -39,25 +39,25 @@ while True:
     frame_for_model = data_generator.standardize(np.float64(reshaped_frame))
 
     # Predicting the frame
-    # prediction = np.array(model.predict(frame_for_model))
-    # predicted_class = classes[prediction.argmax()]      # Selecting the max confidence index
+    prediction = np.array(model.predict(frame_for_model))
+    predicted_class = classes[prediction.argmax()]      # Selecting the max confidence index
 
-    # # Preparing output based on the model's confidence.
-    # prediction_probability = prediction[0, prediction.argmax()]
-    # if prediction_probability > 0.5:
-    #     # High confidence
-    #     cv2.putText(frame, '{} - {:.2f}%'.format(predicted_class, prediction_probability * 100), 
-    #                                 (10, 450), 1, 2, (255, 255, 0), 2, cv2.LINE_AA)
-    # elif prediction_probability > 0.2 and prediction_probability <= 0.5:
-    #     # Low confidence
-    #     cv2.putText(frame, 'Maybe {}... - {:.2f}%'.format(predicted_class, prediction_probability * 100), 
-    #                                 (10, 450), 1, 2, (0, 255, 255), 2, cv2.LINE_AA)
-    # else:
-    #     # No confidence
-    #     cv2.putText(frame, classes[-2], (10, 450), 1, 2, (255, 255, 0), 2, cv2.LINE_AA)
+    # Preparing output based on the model's confidence.
+    prediction_probability = prediction[0, prediction.argmax()]
+    if prediction_probability > 0.5:
+        # High confidence
+        cv2.putText(frame, '{} - {:.2f}%'.format(predicted_class, prediction_probability * 100), 
+                                    (10, 450), 1, 2, (255, 255, 0), 2, cv2.LINE_AA)
+    elif prediction_probability > 0.2 and prediction_probability <= 0.5:
+        # Low confidence
+        cv2.putText(frame, 'Maybe {}... - {:.2f}%'.format(predicted_class, prediction_probability * 100), 
+                                    (10, 450), 1, 2, (0, 255, 255), 2, cv2.LINE_AA)
+    else:
+        # No confidence
+        cv2.putText(frame, classes[-2], (10, 450), 1, 2, (255, 255, 0), 2, cv2.LINE_AA)
 
-    # # Display the image with prediction
-    # cv2.imshow('frame', frame)
+    # Display the image with prediction
+    cv2.imshow('frame', frame)
 
     # Press q to quit
     k = cv2.waitKey(1) & 0xFF
